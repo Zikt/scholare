@@ -1,0 +1,36 @@
+# ── Virtual Environment ──────────────────────────────
+venv/
+
+# ── Packaging artifacts ──────────────────────────────
+dist/
+build/
+*.egg-info/
+
+# ── API keys & secrets ───────────────────────────────
+.env
+*.env
+.env.*
+!.env.example
+
+# ── User configs (may contain API keys or paths) ─────
+*.json
+!config_example.json
+
+# ── Search output folders (papers, notes, viz) ───────
+output/
+
+# ── Python bytecode ──────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ── OS junk ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE / editor ─────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,29 @@
+{
+  "query": "(\"EEG\" OR \"BCI\") AND (\"melanin\" OR \"hair texture\") AND \"bias\"",
+  "limit": 20,
+  "output_dir": "./output",
+  "categories": {
+    "Hardware/Physics": [
+      "electrode",
+      "impedance",
+      "hair",
+      "melanin",
+      "contact"
+    ],
+    "Algorithmic/AI": [
+      "cnn",
+      "algorithm",
+      "dataset",
+      "fairness",
+      "training"
+    ],
+    "General/Clinical": []
+  },
+  "default_category": "General/Clinical",
+  "download_pdfs": true,
+  "sources": [
+    "openalex",
+    "arxiv",
+    "biorxiv"
+  ]
+}

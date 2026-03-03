@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scholare"
+version = "1.0.0"
+description = "End-to-end literature review pipeline — search, enrich, download, and generate structured research notes."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    { name = "Scholare Contributors" },
+]
+keywords = [
+    "literature-review",
+    "academic",
+    "research",
+    "google-scholar",
+    "semantic-scholar",
+    "paper-download",
+    "systematic-review",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Text Processing :: General",
+]
+dependencies = [
+    "google-search-results",
+    "pandas",
+    "requests",
+    "matplotlib",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[project.urls]
+Homepage = "https://github.com/OWNER/scholare"
+Repository = "https://github.com/OWNER/scholare"
+Issues = "https://github.com/OWNER/scholare/issues"
+
+[project.scripts]
+scholare = "scholare.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["scholare*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+scholare = ["py.typed"]

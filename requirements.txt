@@ -1,0 +1,5 @@
+google-search-results
+pandas
+requests
+matplotlib
+python-dotenv
