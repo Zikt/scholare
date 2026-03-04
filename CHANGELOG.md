@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Cloud Notebook Support** — Added `examples/cloud_notebook_template.ipynb` demonstrating secure API key management and direct GitHub installation for Google Colab and Kaggle.
+- **Programmatic API** — `scholare.config.load_config` now natively accepts Python dictionaries, allowing the entire pipeline to run without file I/O.
+- **BibTeX Exporter** — Added `scholare/exporters.py` to automatically generate `.bib` files, extracting author metadata from Semantic Scholar.
+- **Documentation Site** — Configured a complete MkDocs (Material theme) website with automated GitHub Pages deployment.
 - **OpenAlex integration** — Replaced SerpAPI with OpenAlex for primary literature searches, eliminating paywalled rate limits.
 - **Preprint server integration** — Added concurrent querying of arXiv and bioRxiv/medRxiv APIs.
 - **Unpaywall API** — Added lookup capability to dynamically find open-access PDFs via DOI when native sources fail.

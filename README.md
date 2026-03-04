@@ -114,17 +114,48 @@ scholare --config my_config.json --no-download
 scholare --config my_config.json --previous-csv ./old_output/results.csv
 ```
 
-### Programmatic
+### Programmatic & Cloud Notebooks (Colab / Kaggle)
+
+You can use Scholare directly in cloud environments without touching a terminal.
+Install the package directly from GitHub:
+```bash
+!pip install git+https://github.com/zikt/scholare.git
+```
+
+Then, you can define your configuration natively in Python and pass it to the pipeline:
 
 ```python
-from scholare import load_config, run_pipeline
+import os
+from scholare.config import load_config
+from scholare.pipeline import run_pipeline
 
-config = load_config("my_config.json")
-df = run_pipeline(config)
+# Setting API Keys:
+# Method A: Direct Injection
+# os.environ["S2_API_KEY"] = "your_key_here"
+# os.environ["UNPAYWALL_EMAIL"] = "your_email@example.com"
 
-# df is a pandas DataFrame with all enriched paper data
+# Method B: Secure Colab Secrets (Recommended)
+# from google.colab import userdata
+# os.environ["S2_API_KEY"] = userdata.get('S2_API_KEY')
+
+# Define config as a dictionary mapping
+my_config = {
+    "query": "federated learning",
+    "limit": 10,
+    "output_dir": "./output",
+    "categories": {"Privacy": ["dp"]},
+    "default_category": "Other",
+    "download_pdfs": False
+}
+
+config_obj = load_config(my_config)
+df = run_pipeline(config_obj)
+
 print(f"Found {len(df)} papers")
 ```
+
+> [!TIP]
+> See the full interactive [Cloud Notebook Template (`examples/cloud_notebook_template.ipynb`)](examples/cloud_notebook_template.ipynb) to get started immediately!
 
 ---
 
