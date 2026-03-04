@@ -1,6 +1,7 @@
 site_name: Scholare
+site_url: https://zikt.github.io/scholare/
 site_description: Config-driven open-source literature research pipeline
-repo_url: https://github.com/YourUsername/Scholare
+repo_url: https://github.com/zikt/scholare
 
 theme:
   name: material
