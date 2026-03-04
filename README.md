@@ -116,6 +116,8 @@ scholare --config my_config.json --previous-csv ./old_output/results.csv
 
 ### Programmatic & Cloud Notebooks (Colab / Kaggle)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb)
+
 You can use Scholare directly in cloud environments without touching a terminal.
 Install the package directly from GitHub:
 ```bash
