@@ -5,6 +5,12 @@
 
 An end-to-end, config-driven Python tool that **searches academic literature**, **downloads papers**, and **generates structured research notes** — ready to plug into any research topic.
 
+> **🚀 Try it instantly — no installation required!**
+> 
+> <a href="https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+>
+> Click the badge above to run Scholare directly in your browser via Google Colab.
+
 ---
 
 ## ✨ What It Does
@@ -116,9 +122,13 @@ scholare --config my_config.json --previous-csv ./old_output/results.csv
 
 ### Programmatic & Cloud Notebooks (Colab / Kaggle)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb)
+> **⚡ Zero-install quick start** — Run Scholare directly in your browser!
+>
+> <a href="https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+>
+> No Python setup, no terminal, no installation. Just click and run.
 
-You can use Scholare directly in cloud environments without touching a terminal.
+You can also install the package manually in any cloud notebook:
 Install the package directly from GitHub:
 ```bash
 !pip install git+https://github.com/zikt/scholare.git
