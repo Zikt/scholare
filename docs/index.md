@@ -2,12 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Docs](https://img.shields.io/badge/docs-live-brightgreen.svg)](https://zikt.github.io/scholare/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb)
 
 An end-to-end, config-driven Python tool that **searches academic literature**, **downloads papers**, and **generates structured research notes** — ready to plug into any research topic.
 
 > **🚀 Try it instantly — no installation required!**
 > 
-> <a href="https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb)
 >
 > Click the badge above to run Scholare directly in your browser via Google Colab.
 
@@ -124,7 +126,7 @@ scholare --config my_config.json --previous-csv ./old_output/results.csv
 
 > **⚡ Zero-install quick start** — Run Scholare directly in your browser!
 >
-> <a href="https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb)
 >
 > No Python setup, no terminal, no installation. Just click and run.
 

@@ -2,6 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Docs](https://img.shields.io/badge/docs-live-brightgreen.svg)](https://zikt.github.io/scholare/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zikt/scholare/blob/main/examples/cloud_notebook_template.ipynb)
 
 An end-to-end, config-driven Python tool that **searches academic literature**, **downloads papers**, and **generates structured research notes** — ready to plug into any research topic.
 
