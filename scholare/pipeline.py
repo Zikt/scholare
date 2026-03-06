@@ -275,6 +275,7 @@ def run_pipeline(config: dict) -> pd.DataFrame:
     )
     before_count = len(df)
     df_filtered = df[df["Relevance"] >= min_relevance].reset_index(drop=True)
+    df_excluded = df[df["Relevance"] < min_relevance].sort_values("Relevance", ascending=False).reset_index(drop=True)
 
     if df_filtered.empty and before_count > 0:
         print(f"\n⚠️  Relevance filter would remove ALL {before_count} papers (threshold ≥ {min_relevance}).")
@@ -283,6 +284,12 @@ def run_pipeline(config: dict) -> pd.DataFrame:
     else:
         df = df_filtered
         print(f"\n🎯 Relevance filter: kept {len(df)} / {before_count} papers (threshold ≥ {min_relevance})")
+
+    # Save excluded papers for auditing
+    if not df_excluded.empty:
+        excluded_path = Path(output_dir) / "filtered_out.csv"
+        df_excluded.to_csv(excluded_path, index=False)
+        print(f"📋 {len(df_excluded)} excluded papers saved to {excluded_path}")
 
     # ── 3. Categorize ───────────────────────────────────────────────────
     df["Category"] = df.apply(
