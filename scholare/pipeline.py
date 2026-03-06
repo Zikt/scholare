@@ -274,8 +274,15 @@ def run_pipeline(config: dict) -> pd.DataFrame:
         axis=1,
     )
     before_count = len(df)
-    df = df[df["Relevance"] >= min_relevance].reset_index(drop=True)
-    print(f"\n🎯 Relevance filter: kept {len(df)} / {before_count} papers (threshold ≥ {min_relevance})")
+    df_filtered = df[df["Relevance"] >= min_relevance].reset_index(drop=True)
+
+    if df_filtered.empty and before_count > 0:
+        print(f"\n⚠️  Relevance filter would remove ALL {before_count} papers (threshold ≥ {min_relevance}).")
+        print(f"    Keeping all papers and sorting by relevance instead.")
+        df = df.sort_values("Relevance", ascending=False).reset_index(drop=True)
+    else:
+        df = df_filtered
+        print(f"\n🎯 Relevance filter: kept {len(df)} / {before_count} papers (threshold ≥ {min_relevance})")
 
     # ── 3. Categorize ───────────────────────────────────────────────────
     df["Category"] = df.apply(
