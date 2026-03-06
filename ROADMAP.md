@@ -57,7 +57,10 @@ Items marked with ✅ are complete. Items with a contributor's name are in progr
 - [ ] **Abstract similarity clustering** — TF-IDF or embedding-based grouping
 - [ ] **PRISMA flow diagram** — auto-generate the standard systematic review diagram
 - [ ] **Trend analysis** — track publication volume and citation trends over time
-- [ ] **Documentation Website** — full user and developer docs via MkDocs and GitHub Pages
+- [/] **Relevance scoring** — title-weighted keyword scoring with configurable minimum threshold
+- [ ] **AI keyword generation** — auto-generate Boolean queries and category keywords from a plain-language research question
+- [ ] **Performance benchmarking** — track memory usage, API call timing, and throughput per pipeline stage
+- ✅ **Documentation Website** — full user and developer docs via MkDocs and GitHub Pages
 
 ---
 

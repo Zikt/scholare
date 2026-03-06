@@ -23,14 +23,14 @@ def _find_env_file() -> Path | None:
     return None
 
 
-def load_config(config_path: str) -> dict:
+def load_config(config_source: str | dict) -> dict:
     """
     Load and validate a research-tool configuration.
 
     Parameters
     ----------
-    config_path : str
-        Path to a JSON config file.
+    config_source : str | dict
+        Path to a JSON config file, OR a raw Python dictionary containing the config.
 
     Returns
     -------
@@ -54,14 +54,17 @@ def load_config(config_path: str) -> dict:
     elif env_file is None:
         print("⚠️  No .env file found. Relying on environment variables for API keys.")
 
-    # --- Load JSON config ---------------------------------------------------
-    config_path = Path(config_path)
-    if not config_path.is_file():
-        print(f"❌ Config file not found: {config_path}")
-        sys.exit(1)
+    # --- Load JSON config or use dict directly ------------------------------
+    if isinstance(config_source, dict):
+        cfg = config_source
+    else:
+        config_path = Path(config_source)
+        if not config_path.is_file():
+            print(f"❌ Config file not found: {config_path}")
+            sys.exit(1)
 
-    with open(config_path, "r", encoding="utf-8") as fh:
-        cfg = json.load(fh)
+        with open(config_path, "r", encoding="utf-8") as fh:
+            cfg = json.load(fh)
 
     # --- Validate required fields -------------------------------------------
     required = ["query", "limit", "output_dir", "categories", "default_category"]
@@ -78,5 +81,6 @@ def load_config(config_path: str) -> dict:
     # --- Defaults -----------------------------------------------------------
     cfg.setdefault("download_pdfs", True)
     cfg.setdefault("sources", ["openalex", "arxiv", "biorxiv"])
+    cfg.setdefault("min_relevance", 15)
 
     return cfg

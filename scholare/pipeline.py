@@ -13,7 +13,7 @@ from .api import get_paper_metadata, search_openalex, search_arxiv, search_biorx
 from .downloader import download_papers
 from .notes import generate_research_notes
 from .exporters import generate_bibtex
-from .utils import categorize_paper, find_new_discoveries, sanitize_filename, deduplicate_papers, check_boolean_query
+from .utils import categorize_paper, find_new_discoveries, sanitize_filename, deduplicate_papers, check_boolean_query, score_relevance
 from .visualizations import generate_visualizations
 
 
@@ -136,6 +136,7 @@ def run_pipeline(config: dict) -> pd.DataFrame:
     do_download = config.get("download_pdfs", True)
     sort_by = config.get("sort_by", "year")  # "year" or "citations"
     previous_csv = config.get("previous_csv", "")
+    min_relevance = config.get("min_relevance", 15)
     run_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # Build a descriptive output subfolder: <base>/<date>_<terms>/
@@ -165,8 +166,8 @@ def run_pipeline(config: dict) -> pd.DataFrame:
     if "arxiv" in sources:
          print("   [2/3] Querying arXiv...")
          arxiv_res = search_arxiv(query, limit)
-         # Post-filter for strict boolean matching because arXiv's native engine is poor
-         arxiv_res = [p for p in arxiv_res if check_boolean_query(query, p.get("title", ""))]
+         # Post-filter: check boolean query against title + abstract
+         arxiv_res = [p for p in arxiv_res if check_boolean_query(query, f"{p.get('title', '')} {p.get('snippet', '')}")]
          print(f"         Found {len(arxiv_res)} results after boolean filtering.")
          raw_results.extend(arxiv_res)
     else:
@@ -176,8 +177,8 @@ def run_pipeline(config: dict) -> pd.DataFrame:
     if "biorxiv" in sources:
          print("   [3/3] Querying bioRxiv/medRxiv...")
          bio_res = search_biorxiv(query, limit)
-         # Post-filter for strict boolean matching
-         bio_res = [p for p in bio_res if check_boolean_query(query, p.get("title", ""))]
+         # Post-filter: check boolean query against title + abstract
+         bio_res = [p for p in bio_res if check_boolean_query(query, f"{p.get('title', '')} {p.get('snippet', '')}")]
          print(f"         Found {len(bio_res)} results after boolean filtering.")
          raw_results.extend(bio_res)
     else:
@@ -266,6 +267,15 @@ def run_pipeline(config: dict) -> pd.DataFrame:
     if df.empty:
         print("🛑 No papers could be processed.")
         return df
+
+    # ── 2b. Relevance scoring & filtering ────────────────────────────────
+    df["Relevance"] = df.apply(
+        lambda row: score_relevance(query, row.get("Title", ""), row.get("Abstract", "")),
+        axis=1,
+    )
+    before_count = len(df)
+    df = df[df["Relevance"] >= min_relevance].reset_index(drop=True)
+    print(f"\n🎯 Relevance filter: kept {len(df)} / {before_count} papers (threshold ≥ {min_relevance})")
 
     # ── 3. Categorize ───────────────────────────────────────────────────
     df["Category"] = df.apply(

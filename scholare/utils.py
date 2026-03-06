@@ -8,6 +8,77 @@ import re
 import pandas as pd
 
 
+def score_relevance(query: str, title: str, abstract: str) -> int:
+    """
+    Score a paper's relevance to the search query (0–100).
+
+    Scoring logic:
+    - Extract individual terms and quoted phrases from the query.
+    - Each term found in the **title** earns 3 points.
+    - Each term found in the **abstract** earns 1 point.
+    - Boolean operators (AND, OR, NOT) and parentheses are ignored.
+    - A bonus of +15 is awarded if ANY multi-word quoted phrase
+      from the original query appears verbatim in the title or abstract.
+    - Final score is normalized to 0–100.
+
+    Parameters
+    ----------
+    query : str
+        The user's boolean search query string.
+    title : str
+        Paper title.
+    abstract : str
+        Paper abstract.
+
+    Returns
+    -------
+    int
+        Relevance score between 0 and 100.
+    """
+    if not query:
+        return 0
+
+    title_lower = (title or "").lower()
+    abstract_lower = (abstract or "").lower()
+
+    # Extract quoted phrases and bare words, skip boolean operators
+    tokens = re.findall(r'"([^"]+)"|(\S+)', query)
+    skip = {"and", "or", "not", "(", ")"}
+
+    terms = []
+    quoted_phrases = []
+    for phrase, word in tokens:
+        if phrase:
+            quoted_phrases.append(phrase.lower())
+            terms.append(phrase.lower())
+        elif word.lower() not in skip:
+            terms.append(word.lower())
+
+    if not terms:
+        return 0
+
+    # Score: title match = 3pts, abstract match = 1pt per term
+    raw_score = 0
+    max_possible = len(terms) * 4  # 3 (title) + 1 (abstract) per term
+
+    for term in terms:
+        if term in title_lower:
+            raw_score += 3
+        if term in abstract_lower:
+            raw_score += 1
+
+    # Phrase bonus: +15 if any multi-word quoted phrase appears verbatim
+    phrase_bonus = 0
+    for phrase in quoted_phrases:
+        if " " in phrase and (phrase in title_lower or phrase in abstract_lower):
+            phrase_bonus = 15
+            break
+
+    # Normalize to 0–100
+    normalized = int((raw_score / max_possible) * 85) + phrase_bonus if max_possible > 0 else 0
+    return min(normalized, 100)
+
+
 def categorize_paper(row, categories: dict[str, list[str]], default_category: str) -> str:
     """
     Assign a category to a paper based on keyword matching in Title + Abstract.
