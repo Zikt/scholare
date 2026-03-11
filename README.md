@@ -219,6 +219,7 @@ Scholare is actively growing. See [ROADMAP.md](ROADMAP.md) for planned features 
 - 🌐 **Chrome extension** — one-click literature searches
 - 📊 **Analysis** — citation networks, clustering, PRISMA diagrams
 - 🎨 **UX** — rich CLI, interactive HTML dashboards
+- 🤖 **RAG Chat** — interactive CLI chat across downloaded PDFs using local or cloud LLMs
 
 Contributions welcome! Pick any item from the roadmap.
 
