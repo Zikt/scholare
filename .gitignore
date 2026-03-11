@@ -17,7 +17,7 @@ build/
 !config_example.json
 
 # ── Search output folders (papers, notes, viz) ───────
-output/
+output*/
 
 # ── Python bytecode ──────────────────────────────────
 __pycache__/
