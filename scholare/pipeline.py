@@ -13,7 +13,7 @@ from .api import get_paper_metadata, search_openalex, search_arxiv, search_biorx
 from .downloader import download_papers
 from .notes import generate_research_notes
 from .exporters import generate_bibtex
-from .utils import categorize_paper, find_new_discoveries, sanitize_filename, deduplicate_papers, check_boolean_query, score_relevance
+from .utils import categorize_paper, find_new_discoveries, sanitize_filename, deduplicate_papers, check_boolean_query, score_relevance, score_relevance_embeddings
 from .visualizations import generate_visualizations
 
 
@@ -137,6 +137,11 @@ def run_pipeline(config: dict) -> pd.DataFrame:
     sort_by = config.get("sort_by", "year")  # "year" or "citations"
     previous_csv = config.get("previous_csv", "")
     min_relevance = config.get("min_relevance", 15)
+    
+    use_embeddings = config.get("use_embeddings", False)
+    search_intent = config.get("search_intent", query)  # fallback to boolean query if not provided
+    compare_methods = config.get("compare_methods", False)
+    
     run_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # Build a descriptive output subfolder: <base>/<date>_<terms>/
@@ -269,10 +274,39 @@ def run_pipeline(config: dict) -> pd.DataFrame:
         return df
 
     # ── 2b. Relevance scoring & filtering ────────────────────────────────
-    df["Relevance"] = df.apply(
+    model = None
+    if use_embeddings or compare_methods:
+        try:
+            from sentence_transformers import SentenceTransformer
+            print("\n⏳ Loading ML model for relevance scoring (this may take a moment)...")
+            model = SentenceTransformer("all-MiniLM-L6-v2")
+            print("   Model loaded successfully.")
+        except ImportError:
+            print("\n⚠️  ML dependencies not found. To use embeddings, install with: pip install scholare[ml]")
+            print("   Falling back to standard keyword scoring.")
+            use_embeddings = False
+            compare_methods = False
+
+    df["Relevance_Keyword"] = df.apply(
         lambda row: score_relevance(query, row.get("Title", ""), row.get("Abstract", "")),
         axis=1,
     )
+
+    if use_embeddings or compare_methods:
+        print("   Calculating ML embeddings for relevance...")
+        df["Relevance_ML"] = df.apply(
+            lambda row: score_relevance_embeddings(search_intent, row.get("Title", ""), row.get("Abstract", ""), model),
+            axis=1,
+        )
+    
+    if use_embeddings:
+        df["Relevance"] = df["Relevance_ML"]
+    else:
+        df["Relevance"] = df["Relevance_Keyword"]
+
+    if not compare_methods:
+        df = df.drop(columns=["Relevance_Keyword", "Relevance_ML"], errors="ignore")
+
     before_count = len(df)
     df_filtered = df[df["Relevance"] >= min_relevance].reset_index(drop=True)
     df_excluded = df[df["Relevance"] < min_relevance].sort_values("Relevance", ascending=False).reset_index(drop=True)

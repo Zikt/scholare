@@ -25,6 +25,7 @@ An end-to-end, config-driven Python tool that **searches academic literature**, 
 6. **Generates visualizations** — category distribution, open-access status, citation histogram, year timeline.
 7. **Produces structured Markdown research notes** — executive summary, taxonomy, top-cited, per-category breakdown with TLDRs, embedded charts, full paper index.
 8. **Compares runs** — pass a previous CSV to isolate newly discovered papers.
+9. **Semantic Relevance Scoring (Optional)** — ranks papers using keyword heuristics or deep-learning embeddings via `sentence-transformers`.
 
 ---
 
@@ -91,7 +92,10 @@ Edit `my_config.json`:
   },
   "default_category": "Other",
   "download_pdfs": true,
-  "sources": ["openalex", "arxiv", "biorxiv"]
+  "sources": ["openalex", "arxiv", "biorxiv"],
+  "search_intent": "your natural language description of what you are looking for",
+  "use_embeddings": true,
+  "compare_methods": false
 }
 ```
 
@@ -104,6 +108,9 @@ Edit `my_config.json`:
 | `default_category` | Fallback when no keywords match |
 | `download_pdfs` | Set `false` to skip PDF downloading by default |
 | `sources` | (Optional) List of sources to query. Available: `openalex`, `arxiv`, `biorxiv` |
+| `search_intent` | (Optional) Natural language phrase for semantic relevance scoring |
+| `use_embeddings` | (Optional) Set to `true` to use `sentence-transformers` for ML-based relevance ranking (requires `pip install scholare[ml]`) |
+| `compare_methods` | (Optional) Set to `true` to output both keyword and ML embedding scores for comparison in the CSV |
 
 ---
 

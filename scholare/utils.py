@@ -95,6 +95,49 @@ def score_relevance(query: str, title: str, abstract: str) -> int:
     return min(normalized, 100)
 
 
+def score_relevance_embeddings(intent: str, title: str, abstract: str, model) -> int:
+    """
+    Score a paper's relevance to the search intent using embeddings (0–100).
+
+    Parameters
+    ----------
+    intent : str
+        The user's natural language search intent.
+    title : str
+        Paper title.
+    abstract : str
+        Paper abstract.
+    model : SentenceTransformer
+        The loaded sentence-transformers model.
+
+    Returns
+    -------
+    int
+        Relevance score between 0 and 100.
+    """
+    if not intent or not model:
+        return 0
+
+    text = f"{title or ''} {abstract or ''}".strip()
+    if not text:
+        return 0
+
+    from sentence_transformers import util
+
+    # Encode intent and text
+    embeddings = model.encode([intent, text])
+    
+    # Calculate cosine similarity
+    cos_sim = util.cos_sim(embeddings[0], embeddings[1])
+    sim_score = cos_sim.item()
+
+    # Normalize cosine similarity (usually [-1, 1], though practical pairs are mostly [0, 1])
+    # to [0, 100].
+    normalized = max(0, int(sim_score * 100))
+    return min(normalized, 100)
+
+
+
 def categorize_paper(row, categories: dict[str, list[str]], default_category: str) -> str:
     """
     Assign a category to a paper based on keyword matching in Title + Abstract.

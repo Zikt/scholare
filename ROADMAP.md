@@ -57,7 +57,7 @@ Items marked with ✅ are complete. Items with a contributor's name are in progr
 - [ ] **Abstract similarity clustering** — TF-IDF or embedding-based grouping
 - [ ] **PRISMA flow diagram** — auto-generate the standard systematic review diagram
 - [ ] **Trend analysis** — track publication volume and citation trends over time
-- [/] **Relevance scoring** — title-weighted keyword scoring with configurable minimum threshold
+- ✅ **Relevance scoring** — keyword-heuristic scoring AND optional semantic embedding-based ranking limit threshold
 - [ ] **AI keyword generation** — auto-generate Boolean queries and category keywords from a plain-language research question
 - [ ] **Performance benchmarking** — track memory usage, API call timing, and throughput per pipeline stage
 - ✅ **Documentation Website** — full user and developer docs via MkDocs and GitHub Pages
@@ -86,6 +86,19 @@ Items marked with ✅ are complete. Items with a contributor's name are in progr
 - [ ] **Web UI** — browser-based interface for non-technical users
 - [ ] **REST API** — serve as a backend for other tools
 - [ ] **Jupyter integration** — widget-based interface for notebooks
+
+---
+
+## v2.5 — Retrieval-Augmented Generation (RAG)
+
+> **Goal**: Turn the static downloaded PDF folder into an interactive, conversational research assistant. The chosen architecture is a **Serverless Open Source API (e.g., Groq, Together AI)**.
+> **Reasoning**: This provides the speed and quality of open-source models (like Llama-3) without the prohibitive $150+/month cost of renting idle dedicated GPUs. You only pay fractions of a cent per token generated, allowing the service to scale cheaply while feeling free to the end user.
+
+- [ ] **PDF Parsing Engine** — robust text extraction from multi-column academic PDFs (e.g., using `PyMuPDF` or `unstructured`).
+- [ ] **Local Vector Store** — lightweight embedding storage (e.g., `ChromaDB` or `FAISS`) for semantic search across downloaded papers.
+- [ ] **Serverless LLM Integration** — integrate with Inference APIs (e.g., Groq, Together AI) to generate answers using open-source weights (Llama-3/Mistral) cost-effectively.
+- [ ] **Interactive CLI Chat** — a new command (e.g., `scholare-chat --folder output/xyz`) to ask natural language questions across the dataset.
+- [ ] **Methodology & Data Extraction** — specialized prompts to automatically pull study limitations, participant demographics, or equipment used.
 
 ---
 

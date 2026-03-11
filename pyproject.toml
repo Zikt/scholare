@@ -43,6 +43,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+ml = [
+    "sentence-transformers>=2.2.2",
+    "torch"
+]
 dev = [
     "pytest",
     "pytest-cov",
