@@ -41,6 +41,15 @@ cp .env.example .env
 
 ## Development Workflow
 
+### Feature Branch Strategy
+We use the **Feature Branch Workflow** to protect the `main` branch. 
+Never push code directly to `main`. Instead:
+1. Make sure you are up to date: `git checkout main` and `git pull`
+2. Create a new branch: `git checkout -b feature/my-new-feature` or `fix/my-bug-fix`
+3. Develop, test, and commit your changes to this branch.
+4. Push the branch to GitHub: `git push origin your-branch-name`
+5. Open a Pull Request on GitHub against `main`. All PRs are automatically tested using our GitHub Actions CI pipeline.
+
 ### Running Tests
 
 ```bash
