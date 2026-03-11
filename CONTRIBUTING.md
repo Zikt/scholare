@@ -87,7 +87,8 @@ Check the [ROADMAP.md](ROADMAP.md) first — your idea might already be listed. 
 2. Make your changes
 3. Add tests if applicable
 4. Run `pytest` to make sure everything passes
-5. Open a PR with a clear description of what you changed and why
+5. **Update Documentation**: Modify `CHANGELOG.md`, `ROADMAP.md` (if taking a planned item), and `README.md` or `docs/` if appropriate.
+6. Open a PR with a clear description of what you changed and why, checking off the PR template boxes.
 
 ### 📡 Adding New API Integrations
 
