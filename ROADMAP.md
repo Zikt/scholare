@@ -74,6 +74,7 @@ Items marked with ✅ are complete. Items with a contributor's name are in progr
 - [ ] **Multi-query configs** — run several related queries in one config
 - [ ] **Verbose/quiet modes** — control output detail level
 - [ ] **Resume support** — restart from last checkpoint if a run is interrupted
+- [ ] **Collect Feedback & Reviews** — enable GitHub Discussions for community reviews and embed a feedback form link in docs/CLI for structured ratings.
 
 ---
 

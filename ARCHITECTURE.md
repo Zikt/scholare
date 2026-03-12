@@ -55,11 +55,16 @@ Scholare currently aggregates results from three distinct sources (configured vi
 ### 2. Deduplication
 Because a single paper might exist on bioRxiv, OpenAlex, and Semantic Scholar simultaneously, results are passed through `utils.deduplicate_papers()`. It relies primarily on the DOI. If a DOI is missing, it falls back to a normalized string comparison of the title.
 
-### 3. Metadata Enrichment
+### 3. Metadata Enrichment & Relevance Scoring
 Every unique paper is passed to the Semantic Scholar Graph API (`api.get_paper_metadata()`).
 - Scholare prioritizes searching S2 via the **DOI** (if found during the Extract phase).
 - It falls back to a **Title** search if no DOI exists.
 - The pipeline extracts the Abstract, TLDR, and Citation count.
+
+**Relevance Scoring:**
+Before saving, each paper is assigned a Relevance Score (0-100).
+- **Heuristic (Default):** Scores papers based on the presence and density of the search terms in the title and abstract (`utils.score_relevance()`).
+- **Semantic ML (Optional):** If configured (`use_embeddings: true`), Scholare uses the `sentence-transformers` library to generate deep-learning embeddings of the paper's text and compares them against the user's natural language intent using cosine similarity (`utils.score_relevance_embeddings()`).
 
 ### 4. Open-Access Discovery
 Scholare uses a cascading fallback mechanism to find legal, free PDF links:
